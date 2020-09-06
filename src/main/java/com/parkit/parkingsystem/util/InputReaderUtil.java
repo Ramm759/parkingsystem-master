@@ -5,11 +5,19 @@ import org.apache.logging.log4j.Logger;
 
 import java.util.Scanner;
 
+/**
+ * Classe gérant les entrées clavier
+ */
+
 public class InputReaderUtil {
 
     private static Scanner scan = new Scanner(System.in);
     private static final Logger logger = LogManager.getLogger("InputReaderUtil");
 
+    /**
+     * Lit le choix de l'utilisateur
+     * @return input (1,2 ou 3 et -1 en cas d'erreur)
+     */
     public int readSelection() {
         try {
             int input = Integer.parseInt(scan.nextLine());
@@ -21,6 +29,11 @@ public class InputReaderUtil {
         }
     }
 
+    /**
+     *
+     * @return vehicleRegNumber : immatriculation du véhicule
+     * @throws Exception
+     */
     public String readVehicleRegistrationNumber() throws Exception {
         try {
             String vehicleRegNumber= scan.nextLine();
