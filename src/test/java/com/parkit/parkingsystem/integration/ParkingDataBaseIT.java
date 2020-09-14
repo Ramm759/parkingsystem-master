@@ -55,8 +55,7 @@ public class ParkingDataBaseIT {
         int nextPlace = parkingSpotDAO.getNextAvailableSlot(ParkingType.CAR);
 
         parkingService.processIncomingVehicle();
-        //TODO: check that a ticket is actualy saved in DB and Parking table is updated with availability
-        //vérifier qu'un ticket est effectivement enregistré dans la base de données et que la table de
+        //TODO#2 : vérifier qu'un ticket est effectivement enregistré dans la base de données et que la table de
         // stationnement est mise à jour avec la disponibilité
 
         // étape 1 : on récupère le ticket du véhicule immatriculé ABCDEF
@@ -84,8 +83,7 @@ public class ParkingDataBaseIT {
         Thread.sleep(1000); // On simule un temps entre entrée et sortie pour eviter l'exeption
 
         parkingService.processExitingVehicle();
-        //TODO: check that the fare generated and out time are populated correctly in the database
-        //vérifier que le tarif généré et l'heure de départ sont correctement renseignés dans la base de données
+        //TODO#2 : vérifier que le tarif généré et l'heure de départ sont correctement renseignés dans la base de données
 
         // étape 1 : on récupère le ticket du véhicule immatriculé ABCDEF
         Ticket ticket = ticketDAO.getTicket("ABCDEF");
@@ -94,7 +92,6 @@ public class ParkingDataBaseIT {
         Assertions.assertNotNull(ticket);
 
         // étape 3 : on vérifie que le ticket à bien une date de sortie (outTime)
-        ParkingSpot parkingSpot = ticket.getParkingSpot();
         Assertions.assertNotNull(ticket.getOutTime());
 
         // étape 4 : on vériefie si le tarif du ticket est correct
