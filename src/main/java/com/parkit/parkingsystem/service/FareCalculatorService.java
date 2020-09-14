@@ -12,6 +12,7 @@ public class FareCalculatorService {
         if( (ticket.getOutTime() == null) || (ticket.getOutTime().before(ticket.getInTime())) ){
             throw new IllegalArgumentException("Out time provided is incorrect:"+ticket.getOutTime().toString());
         }
+        
 
         // ancienne syntaxe :
         //int inHour = ticket.getInTime().getHours();
