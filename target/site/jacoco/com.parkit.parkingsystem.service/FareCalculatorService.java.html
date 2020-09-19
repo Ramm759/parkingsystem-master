@@ -8,43 +8,43 @@ import java.util.Calendar;
 
 <span class="fc" id="L9">public class FareCalculatorService {</span>
 
-    public void calculateFare(Ticket ticket){
-<span class="pc bpc" id="L12" title="1 of 4 branches missed.">        if( (ticket.getOutTime() == null) || (ticket.getOutTime().before(ticket.getInTime())) ){</span>
-<span class="fc" id="L13">            throw new IllegalArgumentException(&quot;Out time provided is incorrect:&quot;+ticket.getOutTime().toString());</span>
+    // STORY#2
+    public void calculateFare(Ticket ticket, double discount){
+<span class="fc" id="L13">        calculateFare(ticket);</span>
+<span class="fc" id="L14">        ticket.setPrice(ticket.getPrice() - (ticket.getPrice() * discount / 100F)) ;</span>
+        //ticket.setPrice(ticket.getPrice() * (1 - discount / 100F)) ;
+<span class="fc" id="L16">    }</span>
+
+    public void calculateFare(Ticket ticket) {
+<span class="pc bpc" id="L19" title="1 of 4 branches missed.">        if ((ticket.getOutTime() == null) || (ticket.getOutTime().before(ticket.getInTime()))) {</span>
+<span class="fc" id="L20">            throw new IllegalArgumentException(&quot;Out time provided is incorrect:&quot; + ticket.getOutTime().toString());</span>
         }
 
-
-        // ancienne syntaxe :
-        //int inHour = ticket.getInTime().getHours();
-        // remplacé par ;
-        //Calendar calendar = Calendar.getInstance();
-        //calendar.setTime(ticket.getInTime());
-        //int inHour = calendar.get(Calendar.HOUR_OF_DAY);
-
-        // ancienne syntaxe :
-        //int outHour = ticket.getOutTime().getHours();
-        // remplacé par ;
-        //calendar.setTime(ticket.getOutTime());
-        //int outHour = calendar.get(Calendar.HOUR_OF_DAY);
+        // TODO#1 : Correction du code pour passer les tests
 
         // duration : temps en ms
-<span class="fc" id="L31">        Duration duration = Duration.between(ticket.getInTime().toInstant(),ticket.getOutTime().toInstant());</span>
+<span class="fc" id="L26">        Duration duration = Duration.between(ticket.getInTime().toInstant(), ticket.getOutTime().toInstant());</span>
 
 
         //TODO: Some tests are failing here. Need to check if this logic is correct
 
+        // STORY#1 : 30 minutes gratuites
+<span class="fc bfc" id="L32" title="All 2 branches covered.">        if (duration.toMinutes() &lt;= 30)</span>
+<span class="fc" id="L33">            ticket.setPrice(0.0);</span>
 
-
-<span class="pc bpc" id="L38" title="1 of 3 branches missed.">        switch (ticket.getParkingSpot().getParkingType()){</span>
-            case CAR: {
-<span class="fc" id="L40">                ticket.setPrice(duration.toMinutes()/60F * Fare.CAR_RATE_PER_HOUR); //F : flottant</span>
-<span class="fc" id="L41">                break;</span>
+        else {
+<span class="pc bpc" id="L36" title="1 of 3 branches missed.">           switch (ticket.getParkingSpot().getParkingType()) {</span>
+                case CAR: {
+<span class="fc" id="L38">                    ticket.setPrice(duration.toMinutes() / 60F * Fare.CAR_RATE_PER_HOUR); //F : flottant</span>
+<span class="fc" id="L39">                    break;</span>
+                }
+                case BIKE: {
+<span class="fc" id="L42">                    ticket.setPrice(duration.toMinutes() / 60F * Fare.BIKE_RATE_PER_HOUR);</span>
+<span class="fc" id="L43">                    break;</span>
+                }
+                default:
+<span class="nc" id="L46">                    throw new IllegalArgumentException(&quot;Unkown Parking Type&quot;);</span>
             }
-            case BIKE: {
-<span class="fc" id="L44">                ticket.setPrice(duration.toMinutes()/60F * Fare.BIKE_RATE_PER_HOUR);</span>
-<span class="fc" id="L45">                break;</span>
-            }
-<span class="nc" id="L47">            default: throw new IllegalArgumentException(&quot;Unkown Parking Type&quot;);</span>
         }
 <span class="fc" id="L49">    }</span>
 }
